@@ -63,7 +63,25 @@ function pauseSlideShow() {
 }
 
 // Resume slide show on mouse out
-document.querySelector(".slider-container").addEventListener("mouseover", pauseSlideShow);
-document.querySelector(".slider-container").addEventListener("mouseout", startSlideShow);
+document.querySelector(".pagination").addEventListener("mouseover", pauseSlideShow);
+document.querySelector(".pagination").addEventListener("mouseout", startSlideShow);
+
+// Add touch events for swipe functionality
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleSwipe() {
+    if (touchEndX < touchStartX - 50) nextSlide(); // Swipe left
+    if (touchEndX > touchStartX + 50) prevSlide(); // Swipe right
+}
+
+document.querySelector(".slider-container").addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.querySelector(".slider-container").addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
 
 startSlideShow();
